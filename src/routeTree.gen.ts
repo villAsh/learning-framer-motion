@@ -12,6 +12,7 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
+import { Route as ExampleTwoIndexImport } from './routes/exampleTwo/index'
 import { Route as ExampleOneIndexImport } from './routes/exampleOne/index'
 
 // Create/Update Routes
@@ -19,6 +20,12 @@ import { Route as ExampleOneIndexImport } from './routes/exampleOne/index'
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ExampleTwoIndexRoute = ExampleTwoIndexImport.update({
+  id: '/exampleTwo/',
+  path: '/exampleTwo/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -46,6 +53,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ExampleOneIndexImport
       parentRoute: typeof rootRoute
     }
+    '/exampleTwo/': {
+      id: '/exampleTwo/'
+      path: '/exampleTwo'
+      fullPath: '/exampleTwo'
+      preLoaderRoute: typeof ExampleTwoIndexImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -54,36 +68,41 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/exampleOne': typeof ExampleOneIndexRoute
+  '/exampleTwo': typeof ExampleTwoIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/exampleOne': typeof ExampleOneIndexRoute
+  '/exampleTwo': typeof ExampleTwoIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/exampleOne/': typeof ExampleOneIndexRoute
+  '/exampleTwo/': typeof ExampleTwoIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/exampleOne'
+  fullPaths: '/' | '/exampleOne' | '/exampleTwo'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/exampleOne'
-  id: '__root__' | '/' | '/exampleOne/'
+  to: '/' | '/exampleOne' | '/exampleTwo'
+  id: '__root__' | '/' | '/exampleOne/' | '/exampleTwo/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ExampleOneIndexRoute: typeof ExampleOneIndexRoute
+  ExampleTwoIndexRoute: typeof ExampleTwoIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ExampleOneIndexRoute: ExampleOneIndexRoute,
+  ExampleTwoIndexRoute: ExampleTwoIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -97,7 +116,8 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/exampleOne/"
+        "/exampleOne/",
+        "/exampleTwo/"
       ]
     },
     "/": {
@@ -105,6 +125,9 @@ export const routeTree = rootRoute
     },
     "/exampleOne/": {
       "filePath": "exampleOne/index.tsx"
+    },
+    "/exampleTwo/": {
+      "filePath": "exampleTwo/index.tsx"
     }
   }
 }
