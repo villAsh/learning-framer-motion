@@ -15,6 +15,7 @@ import { Route as IndexImport } from './routes/index'
 import { Route as ExampleTwoIndexImport } from './routes/exampleTwo/index'
 import { Route as ExampleThreeIndexImport } from './routes/exampleThree/index'
 import { Route as ExampleOneIndexImport } from './routes/exampleOne/index'
+import { Route as ExampleFourIndexImport } from './routes/exampleFour/index'
 
 // Create/Update Routes
 
@@ -42,6 +43,12 @@ const ExampleOneIndexRoute = ExampleOneIndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const ExampleFourIndexRoute = ExampleFourIndexImport.update({
+  id: '/exampleFour/',
+  path: '/exampleFour/',
+  getParentRoute: () => rootRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -51,6 +58,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/exampleFour/': {
+      id: '/exampleFour/'
+      path: '/exampleFour'
+      fullPath: '/exampleFour'
+      preLoaderRoute: typeof ExampleFourIndexImport
       parentRoute: typeof rootRoute
     }
     '/exampleOne/': {
@@ -81,6 +95,7 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/exampleFour': typeof ExampleFourIndexRoute
   '/exampleOne': typeof ExampleOneIndexRoute
   '/exampleThree': typeof ExampleThreeIndexRoute
   '/exampleTwo': typeof ExampleTwoIndexRoute
@@ -88,6 +103,7 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/exampleFour': typeof ExampleFourIndexRoute
   '/exampleOne': typeof ExampleOneIndexRoute
   '/exampleThree': typeof ExampleThreeIndexRoute
   '/exampleTwo': typeof ExampleTwoIndexRoute
@@ -96,6 +112,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/exampleFour/': typeof ExampleFourIndexRoute
   '/exampleOne/': typeof ExampleOneIndexRoute
   '/exampleThree/': typeof ExampleThreeIndexRoute
   '/exampleTwo/': typeof ExampleTwoIndexRoute
@@ -103,15 +120,27 @@ export interface FileRoutesById {
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/exampleOne' | '/exampleThree' | '/exampleTwo'
+  fullPaths:
+    | '/'
+    | '/exampleFour'
+    | '/exampleOne'
+    | '/exampleThree'
+    | '/exampleTwo'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/exampleOne' | '/exampleThree' | '/exampleTwo'
-  id: '__root__' | '/' | '/exampleOne/' | '/exampleThree/' | '/exampleTwo/'
+  to: '/' | '/exampleFour' | '/exampleOne' | '/exampleThree' | '/exampleTwo'
+  id:
+    | '__root__'
+    | '/'
+    | '/exampleFour/'
+    | '/exampleOne/'
+    | '/exampleThree/'
+    | '/exampleTwo/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ExampleFourIndexRoute: typeof ExampleFourIndexRoute
   ExampleOneIndexRoute: typeof ExampleOneIndexRoute
   ExampleThreeIndexRoute: typeof ExampleThreeIndexRoute
   ExampleTwoIndexRoute: typeof ExampleTwoIndexRoute
@@ -119,6 +148,7 @@ export interface RootRouteChildren {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ExampleFourIndexRoute: ExampleFourIndexRoute,
   ExampleOneIndexRoute: ExampleOneIndexRoute,
   ExampleThreeIndexRoute: ExampleThreeIndexRoute,
   ExampleTwoIndexRoute: ExampleTwoIndexRoute,
@@ -135,6 +165,7 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/exampleFour/",
         "/exampleOne/",
         "/exampleThree/",
         "/exampleTwo/"
@@ -142,6 +173,9 @@ export const routeTree = rootRoute
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/exampleFour/": {
+      "filePath": "exampleFour/index.tsx"
     },
     "/exampleOne/": {
       "filePath": "exampleOne/index.tsx"
